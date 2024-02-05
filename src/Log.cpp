@@ -7,7 +7,6 @@ void Log::Warn(String message) const
 {
     if (m_LogLevel >= Level::LevelWarning)
     {
-
         m_date.refreshDate();
         std::cout << "[Warning]: " << message << " - Date: " << m_date.getStringRep() << '\n';
     }

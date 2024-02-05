@@ -5,6 +5,15 @@
 using Util::Date;
 using Util::String;
 
+Date::Date(int day, int month, int year)
+    : m_day{day}, m_month{month}, m_year{year}
+{
+    if (m_day < 1 || m_day > daysInMonth() || m_month < 1 || m_month > 12 || m_year < 1)
+    {
+        // will handle this later
+    }
+}
+
 Date Date::getCurrentDate()
 {
     return {2, 2, 2024};
@@ -14,7 +23,7 @@ void Date::refreshDate()
 {
     Date systemDate = Date::getCurrentDate();
 
-    if (!(*this == systemDate) )
+    if (!(*this == systemDate))
     {
         m_day = systemDate.m_day;
         m_month = systemDate.m_month;
@@ -90,8 +99,7 @@ bool Date::operator<=(const Date &date) const
 bool Date::operator>=(const Date &date) const
 {
     return (*this > date || *this == date);
-}   
-
+}
 
 void Date::adjustDate()
 {
@@ -146,6 +154,45 @@ Date &Date::addYears(int n)
     m_year += n;
     m_cacheValid = false;
     return *this;
+}
+
+Date &Date::setDay(int day)
+{
+    if (day < 1 || day > daysInMonth())
+    {
+        // will handle this later
+    }
+    m_day = day;
+    m_cacheValid = false;
+    return *this;
+}
+Date &Date::setMonth(int month)
+{
+    if (month < 1 || month > 12)
+    {
+        // will handle this later
+    }
+
+    m_month = month;
+    m_cacheValid = false;
+    return *this;
+}
+Date &Date::setYear(int year)
+{
+    if (year < 1)
+    {
+        // will handle this later
+    }
+    m_year = year;
+    m_cacheValid = false;
+    return *this;
+}
+void Date::setDate(int day, int month, int year)
+{
+    setDay(day);
+    setMonth(month);
+    setYear(year);
+    m_cacheValid = false;
 }
 
 std::ostream &Util::operator<<(std::ostream &stream, const Date &date)

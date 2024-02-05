@@ -93,40 +93,42 @@ String String::toString(int num)
 		++size;
 	}
 
-	auto *str = new char[size + 1];
-	str[size] = '\0';
+	auto *newBuffer = new char[size + 1];
+	newBuffer[size] = '\0';
 
 	if (num < 0)
 	{
-		str[0] = '-';
+		newBuffer[0] = '-';
 		num = -num;
 	}
 
 	auto i{size - 1};
 	while (num > 0)
 	{
-		str[i] = num % 10 + '0';
+		newBuffer[i] = num % 10 + '0';
 		num /= 10;
 		i--;
 	}
 
-	String result{str};
+	String result{newBuffer};
 
-	delete[] str;
+	delete[] newBuffer;
+	newBuffer = nullptr;
 
 	return result;
 }
 
 String &String::append(const String &other)
 {
-	auto *str = new char[m_size + other.m_size + 1];
+	auto *newBuffer = new char[m_size + other.m_size + 1];
 
-	memcpy(str, m_Buffer, m_size);
-	memcpy(str + m_size, other.m_Buffer, other.m_size + 1);
+	memcpy(newBuffer, m_Buffer, m_size);
+	memcpy(newBuffer + m_size, other.m_Buffer, other.m_size + 1);
 
 	delete[] m_Buffer;
+	m_Buffer = nullptr;
 
-	m_Buffer = str;
+	m_Buffer = newBuffer;
 	m_size = m_size + other.m_size;
 
 	return *this;
@@ -145,6 +147,7 @@ String String::reverse() const
 	String result{newBuffer};
 
 	delete[] newBuffer;
+	newBuffer = nullptr;
 
 	return result;
 };
@@ -180,14 +183,15 @@ String &String::toLowerCase()
 
 String Util::operator+(const String &str1, const String &str2)
 {
-	auto *str = new char[str1.m_size + str2.m_size + 1];
+	auto *newBuffer = new char[str1.m_size + str2.m_size + 1];
 
-	memcpy(str, str1.m_Buffer, str1.m_size);
-	memcpy(str + str1.m_size, str2.m_Buffer, str2.m_size + 1);
+	memcpy(newBuffer, str1.m_Buffer, str1.m_size);
+	memcpy(newBuffer + str1.m_size, str2.m_Buffer, str2.m_size + 1);
 
-	String result{str};
+	String result{newBuffer};
 
-	delete[] str;
+	delete[] newBuffer;
+	newBuffer = nullptr;
 
 	return result;
 }
@@ -216,22 +220,12 @@ String &String::operator=(String &&other) noexcept
 
 bool Util::operator==(const String &str1, const String &str2)
 {
-	if (*(str1.m_Buffer) == *(str2.m_Buffer))
-	{
-		return true;
-	}
-
-	return false;
+	return (*(str1.m_Buffer) == *(str2.m_Buffer));
 }
 
 bool Util::operator!=(const String &str1, const String &str2)
 {
-	if (*(str1.m_Buffer) != *(str2.m_Buffer))
-	{
-		return true;
-	}
-
-	return false;
+	return (*(str1.m_Buffer) != *(str2.m_Buffer));
 }
 
 char &String::operator[](size_t index) const
