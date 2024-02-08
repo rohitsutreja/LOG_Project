@@ -18,12 +18,12 @@ namespace Util
         mutable bool m_cacheValid = false;
         mutable String m_cache;
 
-        void adjustDate();
+        void adjustDate() noexcept;
         int daysInMonth() const;
 
     public:
         Date(int day, int month, int year);
-        
+
         static Date getCurrentDate();
 
         Date &addDays(int n);
