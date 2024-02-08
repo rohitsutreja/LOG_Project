@@ -4,13 +4,14 @@
 
 using Util::Date;
 using Util::String;
+using Exception::CustomException;
 
 Date::Date(int day, int month, int year)
     : m_day{day}, m_month{month}, m_year{year}
 {
     if (m_day < 1 || m_day > daysInMonth() || m_month < 1 || m_month > 12 || m_year < 1)
     {
-        // will handle this later
+        throw CustomException{"Invalid Date"};
     }
 }
 
@@ -160,7 +161,7 @@ Date &Date::setDay(int day)
 {
     if (day < 1 || day > daysInMonth())
     {
-        // will handle this later
+        throw CustomException{"Invalid Day"};
     }
     m_day = day;
     m_cacheValid = false;
@@ -170,7 +171,7 @@ Date &Date::setMonth(int month)
 {
     if (month < 1 || month > 12)
     {
-        // will handle this later
+        throw CustomException{"Invalid Month"};
     }
 
     m_month = month;
@@ -181,7 +182,7 @@ Date &Date::setYear(int year)
 {
     if (year < 1)
     {
-        // will handle this later
+        throw CustomException{"Invalid Year"};
     }
     m_year = year;
     m_cacheValid = false;
@@ -189,9 +190,14 @@ Date &Date::setYear(int year)
 }
 void Date::setDate(int day, int month, int year)
 {
+    try{
     setDay(day);
     setMonth(month);
     setYear(year);
+    }
+    catch(CustomException){
+        throw;
+    }
     m_cacheValid = false;
 }
 

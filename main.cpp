@@ -15,4 +15,10 @@ int main()
     log.Warn("Carefull!");
     log.Error("Stop!");
 
+    Date d{29,2,2023};
+
+    std::cout << d;
+
+    
+
 }

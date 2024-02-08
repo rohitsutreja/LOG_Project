@@ -3,16 +3,18 @@
 
 #include <iostream>
 #include "String.h"
+#include "Exception.h"
 #include <string>
+
 
 namespace Util
 {
     class Date
     {
     private:
-        int m_day;
-        int m_month;
-        int m_year;
+        int m_day{};
+        int m_month{};
+        int m_year{};
         mutable bool m_cacheValid = false;
         mutable String m_cache;
 

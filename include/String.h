@@ -3,9 +3,11 @@
 
 #include <cstring>
 #include <iostream>
+#include "./Exception.h"
 
 namespace Util
 {
+
 	class String
 	{
 
@@ -14,7 +16,7 @@ namespace Util
 		size_t m_size;
 
 	public:
-		static const size_t eos = -1;
+		
 		static String toString(int num);
 
 		String(const char* str = "");
@@ -24,11 +26,13 @@ namespace Util
 		bool empty() const;
 		size_t length() const;
 		size_t indexOf(char character) const;
-		String substring(size_t index = 0, size_t size = eos) const;
+		String substring(size_t index = 0, size_t size = -1) const;
 		String reverse() const;
-		String& append(const String &other);
-		String& toUpperCase();
-		String& toLowerCase();
+		String& append(const String &other) noexcept;
+		String& toUpperCase() noexcept;
+		String& toLowerCase() noexcept;
+
+
 
 		String &operator=(const String &other);
 		String &operator=(String &&other) noexcept;

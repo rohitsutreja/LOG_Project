@@ -3,6 +3,7 @@
 #include <stdio.h>
 
 using Util::String;
+using Exception::CustomException;
 
 String::String(const char *str) : m_size(strlen(str))
 {
@@ -48,15 +49,23 @@ size_t String::indexOf(char character) const
 		}
 		++i;
 	}
-	return -1;
+	throw CustomException{"Character not found"};
 }
 
 String String::substring(size_t index, size_t size) const
-{
+{	
+	
 	if (size == -1)
 	{
 		size = m_size;
 	}
+
+	if(index >= m_size || index < 0)
+	{
+		throw CustomException{"Index out of bounds"};
+	}
+	
+
 	auto *newBuffer = new char[size + 1];
 
 	memcpy(newBuffer, m_Buffer + index, size);
@@ -230,6 +239,11 @@ bool Util::operator!=(const String &str1, const String &str2)
 
 char &String::operator[](size_t index) const
 {
+
+	if(index >= m_size || index < 0)
+	{
+		throw CustomException{"Index out of bounds"};
+	}
 	return m_Buffer[index];
 }
 
