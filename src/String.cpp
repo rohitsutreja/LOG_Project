@@ -3,7 +3,7 @@
 #include <stdio.h>
 
 using Util::String;
-using Exception::CustomException;
+
 
 String::String(const char *str) : m_size(strlen(str))
 {
@@ -49,7 +49,7 @@ size_t String::indexOf(char character) const
 		}
 		++i;
 	}
-	throw CustomException{"Character not found"};
+
 }
 
 String String::substring(size_t index, size_t size) const
@@ -62,7 +62,7 @@ String String::substring(size_t index, size_t size) const
 
 	if(index >= m_size || index < 0)
 	{
-		throw CustomException{"Index out of bounds"};
+
 	}
 	
 
@@ -242,7 +242,7 @@ char &String::operator[](size_t index) const
 
 	if(index >= m_size || index < 0)
 	{
-		throw CustomException{"Index out of bounds"};
+		
 	}
 	return m_Buffer[index];
 }

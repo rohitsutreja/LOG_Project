@@ -18,7 +18,7 @@ namespace Util
         mutable bool m_cacheValid = false;
         mutable String m_cache;
 
-        void adjustDate() noexcept;
+        void adjustDate() ;
         int daysInMonth() const;
 
     public:
