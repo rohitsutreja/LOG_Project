@@ -1,23 +1,24 @@
-#include <ctime>
 #include "..\include\Date.h"
+#include "..\include\Exception.h" 
 #include "String.h"
 
 using Util::Date;
 using Util::String;
+using Exception::DateException;
 
 
 Date::Date(int day, int month, int year)
-    : m_day{day}, m_month{month}, m_year{year}
+    : m_day{ day }, m_month{ month }, m_year{ year }
 {
     if (m_day < 1 || m_day > daysInMonth() || m_month < 1 || m_month > 12 || m_year < 1)
     {
-    
+       throw DateException{ "Date: Invalid date" };
     }
 }
 
 Date Date::getCurrentDate()
 {
-    return {2, 2, 2024};
+    return { 2, 2, 2024 };
 }
 
 void Date::refreshDate()
@@ -54,17 +55,17 @@ String Date::getStringRep() const
     return m_cache;
 }
 
-bool Date::operator==(const Date &date) const
+bool Date::operator==(const Date& date) const noexcept
 {
     return (m_day == date.m_day && m_month == date.m_month && m_year == date.m_year);
 }
 
-bool Date::operator!=(const Date &date) const
+bool Date::operator!=(const Date& date) const noexcept
 {
     return !(*this == date);
 }
 
-bool Date::operator<(const Date &date) const
+bool Date::operator<(const Date& date) const noexcept
 {
     if (m_year < date.m_year)
     {
@@ -87,17 +88,17 @@ bool Date::operator<(const Date &date) const
     return false;
 }
 
-bool Date::operator>(const Date &date) const
+bool Date::operator>(const Date& date) const noexcept
 {
     return !(*this < date || *this == date);
 }
 
-bool Date::operator<=(const Date &date) const
+bool Date::operator<=(const Date& date) const noexcept
 {
     return (*this < date || *this == date);
 }
 
-bool Date::operator>=(const Date &date) const
+bool Date::operator>=(const Date& date) const noexcept
 {
     return (*this > date || *this == date);
 }
@@ -131,7 +132,7 @@ int Date::daysInMonth() const
     }
 }
 
-Date &Date::addDays(int days)
+Date& Date::addDays(int days)
 {
     m_day += days;
     adjustDate();
@@ -139,7 +140,7 @@ Date &Date::addDays(int days)
     return *this;
 }
 
-Date &Date::addMonths(int months)
+Date& Date::addMonths(int months)
 {
     m_month += months;
     while (m_month > 12)
@@ -150,39 +151,39 @@ Date &Date::addMonths(int months)
     m_cacheValid = false;
     return *this;
 }
-Date &Date::addYears(int n)
+Date& Date::addYears(int n)
 {
     m_year += n;
     m_cacheValid = false;
     return *this;
 }
 
-Date &Date::setDay(int day)
+Date& Date::setDay(int day)
 {
     if (day < 1 || day > daysInMonth())
     {
-      
+        throw DateException{ "Day: Invalid day" };
     }
     m_day = day;
     m_cacheValid = false;
     return *this;
 }
-Date &Date::setMonth(int month)
+Date& Date::setMonth(int month)
 {
     if (month < 1 || month > 12)
     {
-        
+       throw DateException{ "Date: Invalid Month" };
     }
 
     m_month = month;
     m_cacheValid = false;
     return *this;
 }
-Date &Date::setYear(int year)
+Date& Date::setYear(int year)
 {
     if (year < 1)
     {
-        
+       throw DateException{ "Date: Invalid Year" };
     }
     m_year = year;
     m_cacheValid = false;
@@ -190,16 +191,15 @@ Date &Date::setYear(int year)
 }
 void Date::setDate(int day, int month, int year)
 {
-  
-    setDay(day);
-    setMonth(month);
-    setYear(year);
-    
+
+        setDay(day);
+        setMonth(month);
+        setYear(year);
 
     m_cacheValid = false;
 }
 
-std::ostream &Util::operator<<(std::ostream &stream, const Date &date)
+std::ostream& Util::operator<<(std::ostream& stream, const Date& date)
 {
     stream << date.getStringRep();
     return stream;

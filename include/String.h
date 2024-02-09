@@ -1,8 +1,9 @@
-#ifndef STRING
-#define STRING
-
 #include <cstring>
 #include <iostream>
+#include "..\include\Exception.h" 
+
+#ifndef STRING
+#define STRING
 
 namespace Util
 {
@@ -15,7 +16,7 @@ namespace Util
 		size_t m_size;
 
 	public:
-		
+
 		static String toString(int num);
 
 		String(const char* str = "");
@@ -27,19 +28,19 @@ namespace Util
 		size_t indexOf(char character) const;
 		String substring(size_t index = 0, size_t size = -1) const;
 		String reverse() const;
-		String& append(const String &other) ;
-		String& toUpperCase() ;
-		String& toLowerCase() ;
+		String& append(const String& other);
+		String& toUpperCase() noexcept;
+		String& toLowerCase() noexcept;
 
 
 
-		String &operator=(const String &other);
-		String &operator=(String &&other) noexcept;
-		char &operator[](size_t index) const;
+		String& operator=(const String& other);
+		String& operator=(String&& other) noexcept;
+		char& operator[](size_t index) const;
 
 		friend String operator+(const String& str1, const String& str2);
-		friend bool operator==(const String& str1, const String& str2);
-		friend bool operator!=(const String& str1, const String& str2);
+		friend bool operator==(const String& str1, const String& str2) noexcept;
+		friend bool operator!=(const String& str1, const String& str2) noexcept;
 		friend std::ostream& operator<<(std::ostream& stream, const String& string);
 
 		~String()
@@ -49,8 +50,8 @@ namespace Util
 	};
 
 	String operator+(const String& str1, const String& str2);
-	bool operator==(const String& str1, const String& str2);
-	bool operator!=(const String& str1, const String& str2);
+	bool operator==(const String& str1, const String& str2) noexcept;
+	bool operator!=(const String& str1, const String& str2) noexcept;
 	std::ostream& operator<<(std::ostream& stream, const String& string);
 
 }

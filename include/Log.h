@@ -1,5 +1,9 @@
 #include "Date.h"
 
+
+#ifndef LOG_H
+#define LOG_H
+
 namespace Util
 {
     class Log
@@ -14,11 +18,11 @@ namespace Util
 
     private:
         Level m_LogLevel;
-        mutable Date m_date{Date::getCurrentDate()};
+        mutable Date m_date{ Date::getCurrentDate() };
 
     public:
-        Log() : m_LogLevel{Level::LevelInfo} {}
-        explicit Log(Level level) : m_LogLevel{level} {}
+        Log() : m_LogLevel{ Level::LevelInfo } {}
+        explicit Log(Level level) : m_LogLevel{ level } {}
 
         void SetLogLevel(Level level)
         {
@@ -29,3 +33,6 @@ namespace Util
         void Info(String message) const;
     };
 }
+
+
+#endif

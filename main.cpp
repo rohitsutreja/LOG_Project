@@ -2,6 +2,7 @@
 #include "include\Log.h"
 #include "include\String.h"
 #include "include\Date.h"
+#include "include\Exception.h"
 
 using Util::Date;
 using Util::Log;
@@ -14,5 +15,4 @@ int main()
     log.Info("Fine!");
     log.Warn("Carefull!");
     log.Error("Stop!");
-
 }
