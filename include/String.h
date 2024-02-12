@@ -1,6 +1,8 @@
 #include <cstring>
 #include <iostream>
+#include <memory>
 #include "..\include\Exception.h" 
+
 
 #ifndef STRING
 #define STRING
@@ -12,8 +14,8 @@ namespace Util
 	{
 
 	private:
-		char* m_Buffer;
-		size_t m_size;
+		std::unique_ptr<char[]> m_Buffer;
+		unsigned m_size;
 
 	public:
 
@@ -43,10 +45,7 @@ namespace Util
 		friend bool operator!=(const String& str1, const String& str2) noexcept;
 		friend std::ostream& operator<<(std::ostream& stream, const String& string);
 
-		~String()
-		{
-			delete[] m_Buffer;
-		}
+		~String() = default;
 	};
 
 	String operator+(const String& str1, const String& str2);
