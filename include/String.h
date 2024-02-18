@@ -3,7 +3,6 @@
 #include <memory>
 #include "..\include\Exception.h" 
 
-
 #ifndef STRING
 #define STRING
 
@@ -15,11 +14,12 @@ namespace Util
 
 	private:
 		std::unique_ptr<char[]> m_Buffer;
-		unsigned m_size;
+		size_t m_size;
 
 	public:
 
 		static String toString(int num);
+	    static String toString(const String& s) { return s; }
 
 		String(const char* str = "");
 		String(const String& other);
@@ -33,12 +33,12 @@ namespace Util
 		String& append(const String& other);
 		String& toUpperCase() noexcept;
 		String& toLowerCase() noexcept;
-
-
-
+		
+		const char* getCStyleString() const;
 		String& operator=(const String& other);
 		String& operator=(String&& other) noexcept;
 		char& operator[](size_t index) const;
+
 
 		friend String operator+(const String& str1, const String& str2);
 		friend bool operator==(const String& str1, const String& str2) noexcept;

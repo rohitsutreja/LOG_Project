@@ -1,18 +1,19 @@
 #include <iostream>
-#include "include\Log.h"
-#include "include\String.h"
-#include "include\Date.h"
-#include "include\Exception.h"
-
-using Util::Date;
-using Util::Log;
-using Util::String;
+#include "include\MyLogger.h"
 
 int main()
 {
-    Log log;
-    log.SetLogLevel(Log::Level::LevelError);
-    log.Info("Fine!");
-    log.Warn("Carefull!");
-    log.Error("Stop!");
+    //Log log;
+    //log.setLogLevel(Log::Level::Error);
+    //log.Info("Fine!");
+    //log.Warn("Carefull!");
+    //log.Error("Stop!", String{"Hello"});
+
+ 
+    MyLogger::setLevel(MyLogger::Log::Level::Info);
+
+    MyLogger::info("Fine!");
+    MyLogger::warn("Carefull!");
+    MyLogger::error("This is Error");
+
 }

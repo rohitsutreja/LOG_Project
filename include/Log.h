@@ -1,72 +1,85 @@
 #include "Date.h"
 #include "VariadicPrint.h"
+#include "FileWriter.h"
+//#include <Windows.h>
 
 #ifndef LOG_H
 #define LOG_H
 
-namespace Util
+using Util::Date;
+using Util::String;
+using Util::FileWriter;
+
+
+namespace MyLogger
+
 {
     class Log
     {
     public:
         enum class Level
-        {
-            LevelError = 0,
-            LevelWarning,
-            LevelInfo
+        {   
+            Debug = 0,
+            Info,
+            Warning,
+            Error,
+            Critical
         };
 
     private:
         Level m_LogLevel;
-        mutable Date m_date{Date::getCurrentDate()};
+        bool m_dumpInFile{ true };
+        String m_fPath{ "log.txt" };
+        mutable String m_buffer{ };
+        mutable int m_bufferCount{};
+
 
     public:
-        Log() : m_LogLevel{Level::LevelInfo} {}
-        explicit Log(Level level) : m_LogLevel{level} {}
+        Log() : m_LogLevel{ Level::Info } {}
+        explicit Log(Level level, String filePath) : m_LogLevel{ level }, m_fPath{filePath} {}
 
-        void SetLogLevel(Level level)
-        {
-            m_LogLevel = level;
-        }
+        void setLevel(Level level) { m_LogLevel = level; }
+        void setFilePath(String path) { m_fPath = path; }
+        void setDumpInFileFlag(bool f) { m_dumpInFile = f; }
 
-        template <typename... Types>
-        void Warn(Types... message) const
-        {
-            if (m_LogLevel >= Level::LevelWarning)
-            {
-                m_date.refreshDate();
-                std::cout << "[Warning]: ";
-                print(message...);
-                std::cout << " - Date: " << m_date.getStringRep() << '\n';
-            }
-        }
+        constexpr Level getLevel() const { return m_LogLevel; }
+        String getLevelName(Level l) const;
+        String getColoredLevelName(Level l) const;
+
+        void logOnConsole(const String& msg) const;
+        void logOnFile(const String& msg, const String& fileName) const;
+        void flushOnFile() const;
+
+        ~Log();
+
 
         template <typename... Types>
-        void Error(Types... message) const
+        void log(Level level, const Types&... message) const
         {
-            if (m_LogLevel >= Level::LevelError)
+            if (level >= m_LogLevel)
             {
-                m_date.refreshDate();
-                std::cout << "[Error]: ";
-                print(message...);
-                std::cout << " - Date: " << m_date.getStringRep() << '\n';
+                String dateStringRep = "Date: " + Date::getCurrentDate().getStringRep();
+                String messageStringRep = getString(message...);
+                String finalMessageForConsole = dateStringRep + " " + getColoredLevelName(level) + " " + messageStringRep + "\n";
+                String finalMessageForFile = dateStringRep + " [" + getLevelName(level) + "] " + messageStringRep + "\n";
+                
+                logOnConsole(finalMessageForConsole);
+
+                if(m_dumpInFile == true)
+                {  
+                    m_buffer.append(finalMessageForFile);
+                    ++m_bufferCount;
+                    if (m_bufferCount >= 10) {
+
+                        flushOnFile();
+
+                    } 
+                }
+                
             }
         }
-
-        template <typename... Types>
-        void Info(Types... message) const
-        {
-
-            if (m_LogLevel >= Level::LevelInfo)
-            {
-                m_date.refreshDate();
-                std::cout << "[Info]: ";
-                print(message...);
-                std::cout << " - Date: " << m_date.getStringRep() << '\n';
-            }
-        }
-
     };
+
 }
 
 #endif

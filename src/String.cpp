@@ -5,7 +5,7 @@
 using Exception::StringException;
 using Util::String;
 
-String::String(const char *str) : m_size(strlen(str))
+String::String(const char* str) : m_size(strlen(str))
 {
 	try
 	{
@@ -13,14 +13,14 @@ String::String(const char *str) : m_size(strlen(str))
 	}
 	catch (std::bad_alloc)
 	{
-		throw StringException{"String: No enough memory"};
+		throw StringException{ "String: No enough memory" };
 	}
 
 	memcpy(m_Buffer.get(), str, m_size);
 	m_Buffer.get()[m_size] = '\0';
 }
 
-String::String(const String &other) : m_size(other.m_size)
+String::String(const String& other) : m_size(other.m_size)
 {
 	try
 	{
@@ -28,14 +28,14 @@ String::String(const String &other) : m_size(other.m_size)
 	}
 	catch (std::bad_alloc)
 	{
-		throw StringException{"String: No enough memory"};
+		throw StringException{ "String: No enough memory" };
 	}
 
 	memcpy(m_Buffer.get(), other.m_Buffer.get(), m_size + 1);
 }
 
-String::String(String &&other) noexcept
-	: m_Buffer{std::move(other.m_Buffer)}, m_size{other.m_size} {}
+String::String(String&& other) noexcept
+	: m_Buffer{ std::move(other.m_Buffer) }, m_size{ other.m_size } {}
 
 size_t String::length() const { return m_size; }
 
@@ -48,7 +48,7 @@ bool String::empty() const
 
 size_t String::indexOf(char character) const
 {
-	auto i{0};
+	auto i{ 0 };
 	while (i < m_size)
 	{
 		if (m_Buffer.get()[i] == character)
@@ -69,7 +69,7 @@ String String::substring(size_t index, size_t size) const
 
 	if (index >= m_size || index < 0)
 	{
-		throw StringException{"Index out bound"};
+		throw StringException{ "Index out bound" };
 	}
 
 	std::unique_ptr<char[]> newBuffer;
@@ -79,13 +79,13 @@ String String::substring(size_t index, size_t size) const
 	}
 	catch (std::bad_alloc)
 	{
-		throw StringException{"String: No enough memory"};
+		throw StringException{ "String: No enough memory" };
 	}
 	memcpy(newBuffer.get(), m_Buffer.get() + index, size);
 
 	newBuffer.get()[size] = '\0';
 
-	String result{newBuffer.get()};
+	String result{ newBuffer.get() };
 
 	return result;
 };
@@ -94,11 +94,11 @@ String String::toString(int num)
 {
 	if (num == 0)
 	{
-		return {"0"};
+		return { "0" };
 	}
 
-	auto size{0};
-	auto temp{num};
+	auto size{ 0 };
+	auto temp{ num };
 
 	if (num < 0)
 	{
@@ -119,7 +119,7 @@ String String::toString(int num)
 	}
 	catch (std::bad_alloc)
 	{
-		throw StringException{"String: No Enough Memory"};
+		throw StringException{ "String: No Enough Memory" };
 	}
 
 	newBuffer.get()[size] = '\0';
@@ -130,7 +130,7 @@ String String::toString(int num)
 		num = -num;
 	}
 
-	auto i{size - 1};
+	auto i{ size - 1 };
 	while (num > 0)
 	{
 		newBuffer.get()[i] = num % 10 + '0';
@@ -138,12 +138,12 @@ String String::toString(int num)
 		i--;
 	}
 
-	String result{newBuffer.get()};
+	String result{ newBuffer.get() };
 
 	return result;
 }
 
-String &String::append(const String &other)
+String& String::append(const String& other)
 {
 
 	std::unique_ptr<char[]> newBuffer;
@@ -153,7 +153,7 @@ String &String::append(const String &other)
 	}
 	catch (std::bad_alloc)
 	{
-		throw StringException{"String: No Enough memory available"};
+		throw StringException{ "String: No Enough memory available" };
 	}
 
 	memcpy(newBuffer.get(), m_Buffer.get(), m_size);
@@ -176,23 +176,23 @@ String String::reverse() const
 	catch (std::bad_alloc)
 	{
 
-		throw StringException{"String: No Enough memory available"};
+		throw StringException{ "String: No Enough memory available" };
 	}
 
-	for (auto i{0}; i < m_size; i++)
+	for (auto i{ 0 }; i < m_size; i++)
 	{
 		newBuffer.get()[i] = m_Buffer.get()[m_size - i - 1];
 	}
 	newBuffer.get()[m_size] = '\0';
 
-	String result{newBuffer.get()};
+	String result{ newBuffer.get() };
 
 	return result;
 };
 
-String &String::toUpperCase() noexcept
+String& String::toUpperCase() noexcept
 {
-	auto i{0};
+	auto i{ 0 };
 	while (m_Buffer.get()[i] != 0)
 	{
 		if (m_Buffer.get()[i] >= 'a' && m_Buffer.get()[i] <= 'z')
@@ -204,9 +204,9 @@ String &String::toUpperCase() noexcept
 	}
 	return *this;
 };
-String &String::toLowerCase() noexcept
+String& String::toLowerCase() noexcept
 {
-	auto i{0};
+	auto i{ 0 };
 	while (m_Buffer.get()[i] != 0)
 	{
 		if (m_Buffer.get()[i] >= 'A' && m_Buffer.get()[i] <= 'Z')
@@ -219,7 +219,7 @@ String &String::toLowerCase() noexcept
 	return *this;
 };
 
-String Util::operator+(const String &str1, const String &str2)
+String Util::operator+(const String& str1, const String& str2)
 {
 
 	std::unique_ptr<char[]> newBuffer;
@@ -229,18 +229,18 @@ String Util::operator+(const String &str1, const String &str2)
 	}
 	catch (std::bad_alloc)
 	{
-		throw StringException{"String: No Enough memory available"};
+		throw StringException{ "String: No Enough memory available" };
 	}
 
 	memcpy(newBuffer.get(), str1.m_Buffer.get(), str1.m_size);
 	memcpy(newBuffer.get() + str1.m_size, str2.m_Buffer.get(), str2.m_size + 1);
 
-	String result{newBuffer.get()};
+	String result{ newBuffer.get() };
 
 	return result;
 }
 
-String &String::operator=(const String &other)
+String& String::operator=(const String& other)
 {
 	m_size = other.m_size;
 	m_Buffer = std::make_unique<char[]>(m_size + 1);
@@ -248,34 +248,41 @@ String &String::operator=(const String &other)
 	return *this;
 }
 
-String &String::operator=(String &&other) noexcept
+String& String::operator=(String&& other) noexcept
 {
 	m_Buffer = std::move(other.m_Buffer);
 	m_size = other.m_size;
 	return *this;
 };
 
-bool Util::operator==(const String &str1, const String &str2) noexcept
+bool Util::operator==(const String& str1, const String& str2) noexcept
 {
 	return (*(str1.m_Buffer.get()) == *(str2.m_Buffer.get()));
 }
 
-bool Util::operator!=(const String &str1, const String &str2) noexcept
+bool Util::operator!=(const String& str1, const String& str2) noexcept
 {
 	return (*(str1.m_Buffer.get()) != *(str2.m_Buffer.get()));
 }
 
-char &String::operator[](size_t index) const
+char& String::operator[](size_t index) const
 {
 	if (index >= m_size || index < 0)
 	{
-		throw StringException{"Index out bound"};
+		throw StringException{ "Index out bound" };
 	}
 	return m_Buffer.get()[index];
 }
 
-std::ostream &Util::operator<<(std::ostream &stream, const String &string)
+std::ostream& Util::operator<<(std::ostream& stream, const String& string)
 {
 	stream << string.m_Buffer.get();
 	return stream;
+}
+
+
+const char* String::getCStyleString() const{
+	char* newBuffer = new char[m_size + 1];
+	memcpy(newBuffer, m_Buffer.get(), m_size + 1);
+	return newBuffer;
 }

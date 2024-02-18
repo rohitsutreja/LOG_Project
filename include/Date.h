@@ -7,8 +7,6 @@
 #ifndef DATE_H
 #define DATE_H
 
-
-
 namespace Util
 {
     class Date

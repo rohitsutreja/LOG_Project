@@ -1,0 +1,12 @@
+Date: 02/02/2024 [Info] Fine!
+Date: 02/02/2024 [Warning] Carefull!
+Date: 02/02/2024 [Error] This is Error
+Date: 02/02/2024 [Info] Fine!
+Date: 02/02/2024 [Warning] Carefull!
+Date: 02/02/2024 [Error] This is Error
+Date: 02/02/2024 [Info] Fine!
+Date: 02/02/2024 [Warning] Carefull!
+Date: 02/02/2024 [Error] This is Error
+Date: 02/02/2024 [Info] Fine!
+Date: 02/02/2024 [Warning] Carefull!
+Date: 02/02/2024 [Error] This is Error
