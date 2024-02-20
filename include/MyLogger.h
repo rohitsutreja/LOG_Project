@@ -1,53 +1,58 @@
-#pragma once
+#ifndef MYLOGGER_H
+#define MYLOGGER_H
 
 #include "Log.h"
 #include <memory>
 
-namespace MyLogger{
+extern std::shared_ptr<MyLogger::Log> defaultLogger;
 
-    auto defaultLogger = std::make_shared<Log>();
+namespace MyLogger
+{
 
-    std::shared_ptr<Log> getLogger() {
+    std::shared_ptr<Log> inline getLogger()
+    {
         return defaultLogger;
     }
 
-    void setDefaultLogger(const std::shared_ptr<Log>& logger) {
+    void inline setDefaultLogger(const std::shared_ptr<Log> &logger)
+    {
         defaultLogger = logger;
     }
 
-    void setLevel(Log::Level l) {
+    void inline setLevel(Log::Level l)
+    {
         getLogger()->setLevel(l);
     }
 
     template <typename... Types>
-    void debug(const Types&... message)
+    void debug(const Types &...message)
     {
         getLogger()->log(Log::Level::Debug, message...);
     }
 
     template <typename... Types>
-    void info(const Types&... message)
+    void info(const Types &...message)
     {
         getLogger()->log(Log::Level::Info, message...);
     }
 
-
     template <typename... Types>
-    void warn(const Types&... message)
+    void warn(const Types &...message)
     {
         getLogger()->log(Log::Level::Warning, message...);
-
     }
 
     template <typename... Types>
-    void error(const Types&... message)
+    void error(const Types &...message)
     {
         getLogger()->log(Log::Level::Error, message...);
     }
 
     template <typename... Types>
-    void critical(const Types&... message)
+    void critical(const Types &...message)
     {
         getLogger()->log(Log::Level::Critical, message...);
     }
 }
+
+#endif

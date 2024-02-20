@@ -1,32 +1,37 @@
+
 #ifndef EXCEPTION_H
 #define EXCEPTION_H
 
-#include"./String.h"
+#include <string>
 
-namespace Exception{
-	class CustomException {
+namespace Exception
+{
+	class CustomException
+	{
 	private:
-		Util::String message{};
-	public:
-		CustomException(Util::String s) : message{s} {}
+		std::string message{};
 
-		virtual Util::String getMessage() {
+	public:
+		CustomException(std::string s) : message{s} {}
+
+		virtual std::string getMessage()
+		{
 			return message;
 		}
 
-		virtual ~CustomException(){}
-
+		virtual ~CustomException() {}
 	};
 
-
-	class StringException: public CustomException{
+	class StringException : public CustomException
+	{
 	public:
-		StringException(Util::String s): CustomException{s}{}
+		StringException(std::string s) : CustomException{s} {}
 	};
 
-	class DateException : public CustomException {
+	class DateException : public CustomException
+	{
 	public:
-		DateException(Util::String s) : CustomException{s}{}
+		DateException(std::string s) : CustomException{s} {}
 	};
 }
 

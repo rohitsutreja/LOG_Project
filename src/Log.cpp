@@ -1,11 +1,17 @@
 #include <iostream>
 #include "..\include\Log.h"
+#include <fstream>
+#include <memory>
 
 using MyLogger::Log;
 
-String Log::getLevelName(Level l) const {
+auto defaultLogger = std::make_shared<Log>();
 
-    switch (l) {
+std::string Log::getLevelName(Level l) const
+{
+
+    switch (l)
+    {
     case Level::Error:
         return "Error";
 
@@ -20,47 +26,62 @@ String Log::getLevelName(Level l) const {
 
     case Level::Critical:
         return "Critical";
+
+    default:
+        return "";
     }
 }
 
-String Log::getColoredLevelName(Level l) const {
+std::string Log::getColoredLevelName(Level l) const
+{
 
-    switch (l) {
+    switch (l)
+    {
     case Level::Error:
-        return "\033[31m[Error]\033[0m";
+        return "\033[31mError\033[0m";
 
     case Level::Warning:
-        return "\033[33m[Warning]\033[0m";
+        return "\033[33mWarning\033[0m";
 
     case Level::Info:
-        return "\033[32m[Info]\033[0m";
+        return "\033[32mInfo\033[0m";
 
     case Level::Debug:
         return "Debug";
 
     case Level::Critical:
-        return "\033[41;37m[Critical]\033[0m";
+        return "\033[41;37mCritical\033[0m";
+
+    default:
+        return "";
     }
 }
 
-void Log::logOnConsole(const String& msg) const {
+void Log::logOnConsole(const std::string &msg) const
+{
     std::cout << msg;
 }
 
-void Log::logOnFile(const String& msg, const String& fileName) const {
-    FileWriter fw{ fileName };
-    fw.writeLine(msg);
+void Log::logOnFile(const std::string &msg, const std::string &fileName) const
+{
+
+    std::ofstream ofs{fileName, std::ios::app};
+    ofs << msg;
 }
 
-void Log::flushOnFile() const {
-    if (m_buffer != "") {
+void Log::flushOnFile() const
+{
+    if (m_buffer != "")
+    {
         logOnFile(m_buffer, m_fPath);
         m_buffer = "";
     }
 }
 
-Log::~Log() {
-    if (m_buffer != "") {
+Log::~Log()
+{
+    if (m_buffer != "")
+    {
         logOnFile(m_buffer, m_fPath);
         m_buffer = "";
     }
